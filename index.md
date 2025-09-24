@@ -1,35 +1,225 @@
 ---
-title: Home
+title: Survey2GIS
 layout: home
 ---
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
+# Survey2GIS Quick Start Guide
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^1] And you will be able to deploy your local build to a different platform than GitHub Pages.
+## What is Survey2GIS?
+Survey2GIS converts survey data from plain text files into GIS formats (Shapefile, DXF, GeoJSON, KML). It takes point measurements and reconstructs them into points, lines, and polygons for use in GIS software.
 
-More specifically, the created site:
+## Installation
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+### Option 1: Standalone Application
+1. Download Survey2GIS for your operating system
+2. Extract to a folder (no installation needed)
+3. Run the executable from the command line or use the GUI
 
-Other than that, you're free to customize sites that you create with this template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+### Option 2: QGIS Plugin (Recommended for QGIS users)
+Install the "S2G Data Processor" plugin directly in QGIS:
+1. In QGIS, go to Plugins → Manage and Install Plugins
+2. Search for "S2G Data Processor" 
+3. Install and use Survey2GIS functionality within QGIS
 
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
+Plugin URL: https://plugins.qgis.org/plugins/s2g_data_processor/
 
-To get started with creating a site, simply:
+## Basic Workflow
+1. **Prepare your data** - Survey data in plain text format, one point per line
+2. **Create a parser file** - Describes how to read your data structure  
+3. **Run Survey2GIS** - Converts data to GIS format
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
+## Quick Test Run
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md#hosting-your-docs-from-an-existing-project-repo) in the template README.
+### Step 1: Try the Sample Data
 
-----
+**Windows:**
+```cmd
+# Open Command Prompt (cmd.exe) and navigate to Survey2GIS folder
+cd /D C:\path\to\survey2gis
 
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
+# Create output folder
+mkdir output
 
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[Jekyll]: https://jekyllrb.com
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
+# Copy sample files to main folder  
+copy samples\parser_desc_end.txt .
+copy samples\sample_data_end.dat .
+
+# Run Survey2GIS
+survey2gis -p parser_desc_end.txt -o output -n test_data sample_data_end.dat
+```
+
+**Mac/Linux:**
+```bash
+# Navigate to Survey2GIS folder
+cd /path/to/survey2gis
+
+# Create output folder
+mkdir output
+
+# Copy sample files to main folder
+cp samples/parser_desc_end.txt .
+cp samples/sample_data_end.dat .
+
+# Run Survey2GIS
+survey2gis -p parser_desc_end.txt -o output -n test_data sample_data_end.dat
+```
+
+This creates Shapefiles in the `output` folder that you can open in any GIS software.
+
+### Step 2: Use the GUI (Alternative)
+**All platforms:**
+```bash
+survey2gis --show-gui
+```
+Fill in the forms instead of using command line options.
+
+## Understanding Your Data Structure
+
+Your survey data should look like this:
+```
+# Comment lines start with #
+1 boundary 1 @ 10.00 10.00 1.00
+2 boundary 1 @ 10.00 20.00 1.05  
+3 boundary 1 @ 20.00 20.00 1.10
+4 boundary 1@ 20.00 10.00 1.00
+```
+
+Each line contains:
+- Point ID
+- Description/label
+- Geometry marker (@ = polygon, - = line, * = point)
+- X, Y, Z coordinates
+
+## Creating Your Parser File
+
+The parser file tells Survey2GIS how to read your data. Create a text file with these sections:
+
+```ini
+[Parser]
+name = My Survey Parser
+tagging mode = end
+tag field = description
+key field = description  
+coor x = x
+coor y = y
+coor z = z
+geom tag point = *
+geom tag line = -
+geom tag poly = @
+
+[Field]
+name = id
+type = integer
+separator = space
+
+[Field] 
+name = description
+type = text
+separator = space
+
+[Field]
+name = x
+type = double
+separator = space
+
+[Field]
+name = y  
+type = double
+separator = space
+
+[Field]
+name = z
+type = double
+```
+
+## Essential Command Line Options
+
+**Required options:**
+- `-p parser.txt` - Parser file
+- `-o output_folder` - Where to save results  
+- `-n base_name` - Base name for output files
+
+**Useful options:**
+- `-f shp` - Output format (shp, dxf, geojson, kml)
+- `-h` - Show help
+- `-v -p parser.txt` - Validate parser file
+- `--show-gui` - Open graphical interface
+
+## Common Data Formats
+
+### Points Only
+```
+1 10.00 10.00 1.00
+2 10.00 20.00 1.05
+3 20.00 20.00 1.10
+```
+Use `tagging mode = none` in parser.
+
+### Lines with Markers  
+```
+1 fence * 10.00 10.00 1.00
+2 fence - 15.00 15.00 1.50
+3 fence - 20.00 20.00 2.00
+```
+First point marked with `*`, line segments with `-`.
+
+### Polygons
+```
+1 building @ 10.00 10.00 1.00
+2 building @ 10.00 20.00 1.05  
+3 building @ 20.00 20.00 1.10
+4 building @ 20.00 10.00 1.00
+```
+All vertices marked with `@`, automatically closed.
+
+## Troubleshooting
+
+**"Parser validation failed"**
+- Check your parser syntax
+- Ensure field names match your data
+- Validate with: `survey2gis -v -p your_parser.txt`
+
+**"No output files created"**
+- Check that output folder exists and is writable
+- Verify your data has correct geometry markers
+- Look at console messages for errors
+
+**Geometries look wrong**
+- Check coordinate field assignments in parser
+- Verify geometry markers are correct
+- Consider data order (larger objects first)
+
+## Next Steps
+
+Once you have basic conversion working:
+- Read Chapter 4 for advanced parser options
+- Chapter 6 for data selections and filtering  
+- Chapter 8 for coordinate system reprojection
+- Chapter 9 for topological cleaning options
+
+## File Formats Supported
+
+**Input:** Plain text files with survey measurements
+**Output:** 
+- Shapefile (.shp) - Default, works with most GIS
+- DXF (.dxf) - CAD format  
+- GeoJSON (.geojson) - Web/database format
+- KML (.kml) - Google Earth format
+
+## Quick Reference Commands
+
+```bash
+# Basic conversion
+survey2gis -p parser.txt -o output -n mydata data.txt
+
+# Multiple input files  
+survey2gis -p parser.txt -o output -n mydata file1.txt file2.txt
+
+# Different output format
+survey2gis -p parser.txt -o output -n mydata -f dxf data.txt
+
+# With coordinate reprojection
+survey2gis -p parser.txt -o output -n mydata --proj-in=utm32n --proj-out=wgs84 data.txt
+```
+
+This quick start should get you converting survey data in minutes. Refer to the full manual for advanced features and troubleshooting.
