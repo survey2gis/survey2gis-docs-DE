@@ -1,6 +1,7 @@
 ---
 title: 6. Labels
 layout: page
+nav_order: 6
 ---
 
 # Labels

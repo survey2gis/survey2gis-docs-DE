@@ -1,6 +1,7 @@
 ---
 title: 15. License
 layout: page
+nav_order: 15
 ---
 
 # License

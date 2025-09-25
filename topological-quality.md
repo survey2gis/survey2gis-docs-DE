@@ -1,6 +1,7 @@
 ---
 title: 10. Topological Quality and Cleaning
 layout: page
+nav_order: 10
 ---
 
 # Topological Quality and Cleaning

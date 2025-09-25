@@ -1,6 +1,7 @@
 ---
 title: 7. Data Selections
 layout: page
+nav_order: 7
 ---
 
 # Data Selections

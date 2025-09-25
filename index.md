@@ -1,6 +1,7 @@
 ---
 title: Survey2GIS
 layout: home
+nav_order: 0
 ---
 
 # Survey2GIS Quick Start Guide

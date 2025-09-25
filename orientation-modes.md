@@ -1,6 +1,7 @@
 ---
 title: 8. Orientation Modes
 layout: page
+nav_order: 8
 ---
 
 # Orientation Modes

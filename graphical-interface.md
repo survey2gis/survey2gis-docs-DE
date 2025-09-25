@@ -1,6 +1,7 @@
 ---
 title: 3. Graphical User Interface
 layout: page
+nav_order: 3
 ---
 
 # Graphical User Interface
