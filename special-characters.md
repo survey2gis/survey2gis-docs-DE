@@ -1,5 +1,5 @@
 ---
-title: 12. Handling Special (Accent) Characters
+title: Handling Special (Accent) Characters
 layout: page
 nav_order: 12
 ---

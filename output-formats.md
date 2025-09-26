@@ -1,5 +1,5 @@
 ---
-title: 11. Output Formats
+title: Output Formats
 layout: page
 nav_order: 11
 ---

@@ -1,5 +1,5 @@
 ---
-title: 2. Program Startup and Options
+title: Program Startup and Options
 layout: page
 nav_order: 2
 ---

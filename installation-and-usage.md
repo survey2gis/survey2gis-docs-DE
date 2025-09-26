@@ -1,5 +1,5 @@
 ---
-title: 1. Installation and Basic Usage
+title: Installation and Basic Usage
 layout: page
 nav_order: 1
 ---

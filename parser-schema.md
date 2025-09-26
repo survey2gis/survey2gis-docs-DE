@@ -1,5 +1,5 @@
 ---
-title: 5. The Parser Schema
+title: The Parser Schema
 layout: page
 nav_order: 5
 ---

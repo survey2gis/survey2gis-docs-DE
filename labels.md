@@ -1,5 +1,5 @@
 ---
-title: 6. Labels
+title: Labels
 layout: page
 nav_order: 6
 ---

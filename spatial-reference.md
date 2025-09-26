@@ -1,5 +1,5 @@
 ---
-title: 9. Spatial Reference Systems and Reprojections
+title: Spatial Reference Systems
 layout: page
 nav_order: 9
 ---

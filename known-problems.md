@@ -1,6 +1,6 @@
 
 ---
-title: 14. Known Problems
+title: Known Problems
 layout: page
 nav_order: 14
 ---
