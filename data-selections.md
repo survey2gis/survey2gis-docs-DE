@@ -178,6 +178,8 @@ Details about each selection command's effect on the data will be displayed in t
 
 It is also possible to compose selection commands using the graphical user interface (GUI, see 3). To do so, click on the button labeled "Selection:". This will produce a list of currently defined selection commands. Click "Add" to define a new selection command or "Edit" to modify an existing one. In both cases, a form similar to the one pictured below will appear.
 
+<img srd="img/44.jpg" style="max-width: 50%">
+
 Selection commands can be constructed by filling in all required fields of the form. In the case of selection type "all", any input for "Field:" and "Expression" will be ignored and discarded once the form is closed with a click on "OK". Note that pressing "OK" will also trigger a syntax check of the entered selection command. This check only validates the formal correctness of the command. It does neither check whether the command will produce a non-empty selection, nor does it check for valid field names and types. Because the latter are completely data-dependent, they can only be checked once the program is run. Therefore, the status messages of Survey2GIS should be watched carefully to verify selection results.
 
 Selection commands will be processed in the same order (top to bottom) in which they appear in the list of selections.

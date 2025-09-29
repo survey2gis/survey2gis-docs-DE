@@ -60,6 +60,9 @@ Sometimes physical constraints mean that the geometry that represents a single o
 
 A self-intersection occurs when a vertex B is placed behind its preceding vertex A in such a way that a straight line from B to its successor vertex C crosses over the existing polygon boundary. Small self-intersections can be hard to spot but will result in triangular, "inverted" areas when visualizing the affected polygon in GIS:
 
+<img srd="img/60.jpg" style="max-width: 50%">
+
+
 Self-intersections are frequent topological errors that prevent many GIS operations from working properly. Currently, Survey2GIS cannot automatically correct this type of error. However, the risk of self-intersections occurring can be lowered by using a "--tolerance" setting equal to the minimal wanted distance between polygon boundary vertices (see also 9.1.1).
 
 Survey2GIS checks for self-intersections early on, when building lines and polygons from the input data. If this is the case, a warning will be issued. To facilitate manual cleaning of self-intersections, new vertices will be added to geometries at self-intersection points.
@@ -86,6 +89,9 @@ The snapping threshold should be chosen to lie well below the typical distance o
 
 The section function for cleaning the boundaries of adjacent polygons is fully automated: If (after snapping), there is still an area of overlap between two adjacent polygons, then the affected area will automatically be removed from the polygon that occurs later in the input data. Additional vertices will be inserted on the shared boundary where necessary:
 
+<img srd="img/62b.jpg" style="max-width: 80%">
+
+
 Best results can be achieved, if:
 
 - Larger (base) objects are surveyed first.
@@ -102,6 +108,9 @@ In practice, the effectiveness of automatic cleaning of shared polygon boundarie
 Also note, that the operations described above will likely fail for polygons that have other topological defects, notably self-intersections (see 9.1.4).
 
 ### Internal Polygon Boundaries (Holes)
+
+<img srd="img/63.jpg" style="max-width: 80%">
+
 
 The 2D topology model of GIS demands that polygons in one and the same layer may not overlap each other. However, what if polygon B lies completely within the area of/is embedded in larger polygon A? In this case, B must be modelled as an internal boundary (hole) of A. In practice, this can be done in two different ways:
 
@@ -122,6 +131,9 @@ Therefore, Survey2GIS marks intersection points by adding additional vertices to
 3. Polygon boundaries crossing other polygon boundaries (intersection vertices will be added to all crossed/crossing boundaries).
 
 (Note that the last case should rarely occur if boundary vertex snapping is effective: 9.1.5.)
+
+<img srd="img/64.jpg" style="max-width: 80%">
+
 
 The program will print two different intersection metrics once the data has been processed:
 
@@ -145,11 +157,16 @@ In many cases, the start and end vertices of lines (also referred to as "nodes")
 
 The illustration below shows a line that has both an undershoot (vertex "0") and an overshoot (vertex "2").
 
+<img srd="img/65.jpg" style="max-width: 80%">
+
 There is a separate threshold option, "--dangling=", to control the snapping of dangles to the nearest line/boundary segment. This is needed, because polygon boundary snapping (option "--snapping="; see 9.1.5) is run first and it can move the vertices of polygon boundaries so much that dangles will no longer snap. Therefore, the dangle snapping threshold should be set larger than the polygon boundary snapping threshold.
 
 Only the first and last segments of a line qualify as dangles, and only if they are succeeded/preceded (respectively) by an intersection vertex (see 9.1.7). If these criteria lead to unsatisfactory cleaning results, and short chains of tiny line segments should also be removed, then consider increasing the "--threshold" option value (see 9.1.1) to reduce such chains to single vertices (note that this may introduce slight inaccuracies into the dangle snapping, as the original line bearing may be modified), or use the intersection vertices added by Survey2GIS (see 9.1.7) to manually remove all excess line segments.
 
 Both overshoot and undershoot corrections will modify original line lengths and both operations can lead to counter-intuitive results if the first or last n vertices are all intersection vertices inserted by Survey2GIS (see 9.1.7). This can happen if e. g. a line segment crosses both another line segment and a polygon boundary segment. In such case, the dangling node will be cut back to the closest intersection point, which may or may not be the ideal/intended snapping position. The image below shows a line that has been snapped to a polygon boundary in the upper part and to a line segment in the lower part during dangle correction:
+
+<img srd="img/66.jpg" style="max-width: 80%">
+
 
 Sometimes, a dangle might occur to be an overshoot in relation to one geometry and an undershoot in relation to another. In such cases, Survey2GIS picks whichever dangle type is shortest (there is also an extremely small chance that both dangle types will have the exact same length, in which case the dangle will be considered an overshoot by default).
 
@@ -163,10 +180,16 @@ Therefore, the results of automated dangle cleaning should always be checked car
 
 A particularly hard problem is posed by "double undershoots" that frequently occur at the corners of line geometries and cannot be detected automatically. Since they do not yield intersection vertices, they are also difficult to fix manually:
 
+<img srd="img/67.jpg" style="max-width: 80%">
+
+
 There are two options for avoiding "double undershoots" while surveying:
 
 - Code the geometry as a polygon instead of a line, so that it will be automatically closed.
 - Cross the first segment with the last one while surveying, so that an intersection vertex will be generated and the two dangles can be removed as overshoots:
+- 
+<img srd="img/67b.jpg" style="max-width: 80%">
+
 
 ### Order of Polygon Vertices
 
@@ -178,6 +201,9 @@ The following rules should be respected when surveying the vertices of polygons 
 
 1. Record the vertices of outer polygon boundaries (also disjunct boundaries of multi-part geometries) in clockwise order.
 2. Record the vertices of inner polygon boundaries ("holes") in counter-clockwise order.
+
+<img srd="img/68.jpg" style="max-width: 80%">
+
 
 When reconstructing polygons from survey data, Survey2GIS will attempt to enforce the above rules automatically and re-order vertices if necessary. In order to avoid problems, however, it is recommended to respect these rules during field work, when recording polygon outlines.
 
@@ -205,6 +231,9 @@ The removal of redundant vertices and snapping actions use a planar distance mea
 There are limits to what automated topological cleaning can achieve for complex, real-world survey data, and it may produce unexpected or even erroneous results. This can be avoided by taking these limits into account during field work.
 
 The illustrations below show one of the few extreme cases that will cause the topological cleaning performed by Survey2GIS to fail. In this case an (elongated) polygon completely crosses another (round) polygon. Automated clean will reduce the crossing (elongated) polygon to only its western part. The reason for this is, that the software does not support the splitting of overlapping polygons into multiple parts during cleaning. The solution is to record the overlapped (round) polygon as two separate geometries in the field, surveying only those areas that are actually visible (see also discussion of multi-part geometries in 9.1.3).
+
+<img srd="img/69.jpg" style="max-width: 80%">
+
 
 Some tricky cases might require using of option "topology=" to reduce the aggressiveness of automatic cleaning (see 9), and resolving issues manually in GIS.
 

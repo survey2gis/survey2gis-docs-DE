@@ -26,6 +26,9 @@ Orientation mode "world" is the default mode of operation in Survey2GIS. It does
 
 The "local X-Z" orientation mode (option value "localxz") is a simple means of transforming 3D survey data to 2D cross-sections ("profiles") that can be visualized in a 2D GIS using a synthetic coordinate system. It is not suitable for large areas with many disjunct geometries, but intended to visualize a single "profile" (alternative terms: "cut", "trench wall", "catena", etc.):
 
+<img srd="img/44.jpg" style="max-width: 80%">
+
+
 The re-orientated data will have a new, synthetic coordinate system with swapped Z and Y axes and newly computed X coordinates. The fact that the transformed data's X coordinates will always start at "0" while the Z coordinates are preserved, makes it relatively easy to compare different datasets side-by-side (provided that the GIS can display several data views at once).
 
 This transformation method is non-parametric and fully automatic. It does not require the definition of a projection plane.
