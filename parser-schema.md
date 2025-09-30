@@ -1,16 +1,16 @@
 ---
-title: The Parser Schema
+title: 4. The Parser Schema
 layout: page
 nav_order: 5
 ---
 
-# The Parser Schema
+# 4. The Parser Schema
 
 The part of Survey2GIS that is responsible for making sense of the data in the input file (i. e. correctly interpret the file's contents) is called the "parser". The parser cannot automatically understand the structure of an input file. Instead, it must be supplied with a parser schema, which is a plain text file with a simple syntax that describes the structure of the input data. The user must create a valid parser schema file before running Survey2GIS on new input data. A given parser schema is then supplied to Survey2GIS using the -p (Parser) option (see 2.3). It can be used to process as many additional input files as required, so long as the input files all adhere to the structure specified in the schema file. This section explains the contents of a valid parser schema file.
 
-## Syntax
+## 4.1 Syntax
 
-To see the contents of this section in context, study the (non-working) illustrative parser description "parser.txt" in the subfolder "docs", as well as the (working) parser and data files in the subfolder "samples".
+> To see the contents of this section in context, study the (non-working) illustrative parser description "parser.txt" in the subfolder "docs", as well as the (working) parser and data files in the subfolder "samples".
 
 Lines that start with a "#" (hashmark) are comment lines. They will be ignored just like empty lines.
 
@@ -44,7 +44,7 @@ A parser schema may be validated by running Survey2GIS with the options "-v" and
 
 The next section contains a discussion of all options that can or must be declared within the sections "[Parser]" and "[Field]".
 
-## Options for [Parser]
+## 4.2 Options for [Parser]
 
 The following options (listed in alphabetical order) can ("optional") or must ("mandatory") be declared within the section "[Parser]". They control the general workings of the input data parser. The example file "parser.txt", contained in the subfolder "docs", contains a parser schema (not suitable for processing actual data) that illustrates all possible options with short comments.
 
@@ -164,7 +164,7 @@ tagging_mode = end
 tag_strict = yes
 ```
 
-## Options for [Field]
+## 4.3 Options for [Field]
 
 The general parser settings (see preceding section) must be followed by two or more (up to 251) field definitions, each one introduced by a
 
@@ -318,7 +318,7 @@ This replaces the text "old" with "new", whenever the former appears in the cont
 ...
 ```
 
-## Geometry Markers and Parser Modes
+## 4.4 Geometry Markers and Parser Modes
 
 In order to reconstruct complex geometries, such as line strings and polygons, from the survey data, the parser needs to understand how to interleave the individual measurements that represent the vertices of complex geometries.
 
@@ -328,7 +328,7 @@ There are some fundamental limitations to what can be achieved:
 - The list of consecutive vertex measurements within one input file may only be interrupted by comment lines or empty line. Regarding the surveying work in the field, It is thus not possible to interrupt the surveying of one feature, start and complete another feature and later finish surveying the first. Where such a working mode is unavoidable, the resulting data file must be re-ordered manually before it can be processed by Survey2GIS.
 - The only available geometry types are "point", "line" and "polygon". Rounded shapes cannot be approximated by Survey2GIS. This must be done in a separate post-processing step, using external software.
 
-**Note:** Further hints on the processing of complex geometries, such as polygons with holes or multi-part geometries, can be found in the section on "topological cleaning" (9).
+> **Note:** Further hints on the processing of complex geometries, such as polygons with holes or multi-part geometries, can be found in the section on "topological cleaning" (9).
 
 Every geometry type is indicated to the parser via a freely definable geometry marker (see 4.2). Candidate characters for markers are all characters that are not normally used in attribute table field content, such as "@" or "$". When surveying, these markers are keyed into the device by the surveyor and stored along with the associated coordinate measurements. They may be inserted as separate data fields or at the end of an existing field (depending on the parser mode chosen).
 
@@ -349,9 +349,9 @@ tagging_mode = min
 
 Only one mode may be specified per parser scheme. This means that all input data will be processed using the same mode. Possible modes are "Min", "Max", "End" and "None".
 
-**Note:** While it is possible to use any text type attribute field for storing an additional geometry tag (and even to declare the same field as "tag_field" and "key_field" in some parser modes: see details below), this is not recommended practice. It is better to use a separate, dedicated geometry tag field. Nevertheless, if geometry markers are stored as part of other field content, then the geometry marker must appear either as the first or last character of the field content.
+> **Note:** While it is possible to use any text type attribute field for storing an additional geometry tag (and even to declare the same field as "tag_field" and "key_field" in some parser modes: see details below), this is not recommended practice. It is better to use a separate, dedicated geometry tag field. Nevertheless, if geometry markers are stored as part of other field content, then the geometry marker must appear either as the first or last character of the field content.
 
-### "Min": Minimal Coding Work
+### 4.4.1 "Min": Minimal Coding Work
 
 This mode is selected by default if the user does not specify a different "tagging_mode" in the parser schema. It is useful for reducing the coding (attribute data entry) work during surveying. In this mode, the first measurement of a line or polygon must be tagged with the appropriate geometry marker.
 
@@ -385,9 +385,11 @@ polygon 1 20.00 10.00 1.00
 
 The minimum number of fields, Min(f), in a valid reduced record in mode "Min" is therefore:
 
+```
 Min(f) = number of coordinate fields (2 or 3) + number of persistent fields.
+```
 
-### "Max": Maximal Control
+### 4.4.2 "Max": Maximal Control
 
 In mode "Max", each measurement must be tagged with a geometry marker (this also means that the parser schema must define a marker for each geometry type). This mode is intended to allow tightly controlled processing of fully edited data. Suitable data may be created using a text editor or other means and Survey2GIS may be used to generate consistent GIS data from it. This mode may also be useful for processing data records exported from a database management system.
 
@@ -412,9 +414,9 @@ This is an excerpt of input data, suitable for processing in mode "Max":
 ...
 ```
 
-**Note:** The vertices of polygons and lines encoded in mode "Max" must be recorded in direct succession. It is not possible to e. g. intersperse single point measurements between the vertices of a polygon!
+> **Note:** The vertices of polygons and lines encoded in mode "Max" must be recorded in direct succession. It is not possible to e. g. intersperse single point measurements between the vertices of a polygon!
 
-### "End": Flexible Surveying
+### 4.4.4. "End": Flexible Surveying
 
 In this mode, every measurement of a line or polygon must be concluded with a geometry marker. The marker must be part of the final vertex measurement.
 
@@ -438,7 +440,7 @@ This is an excerpt of input data, suitable for processing in mode "End":
 ...
 ```
 
-### "None": Points-Only Surveys
+### 4.4.4 "None": Points-Only Surveys
 
 In mode "None", there will be no marking of geometries. This mode is suitable for surveys that include only simple point measurements, such as the work done to survey an elevation model.
 
