@@ -1,12 +1,12 @@
 ---
-title: Spatial Reference Systems
+title: 8. Spatial Reference Systems
 layout: page
 nav_order: 9
 ---
 
-# Spatial Reference Systems and Reprojections
+# 8. Spatial Reference Systems and Reprojections
 
-Support for spatial reference systems and reprojections has been introduced in version 1.5.0 of Survey2GIS. This necessitated some significant changes in the user interface and processing logics. Most importantly, geographic latitude/longitude data is now handled explicitly, leading to modified program behaviour in the areas of topological cleaning and output formats. Please note the relevant parts of sections 9 and 10, in addition to the information given in this section.
+> Support for spatial reference systems and reprojections has been introduced in version 1.5.0 of Survey2GIS. This necessitated some significant changes in the user interface and processing logics. Most importantly, geographic latitude/longitude data is now handled explicitly, leading to modified program behaviour in the areas of topological cleaning and output formats. Please note the relevant parts of sections 9 and 10, in addition to the information given in this section.
 
 Survey2GIS allows the user to set spatial reference system (SRS) and reprojection information for only the input or both input and output data. Setting the input SRS correctly helps ensure correct data processing. Additionally setting the output SRS will cause Survey2GIS to perform output data reprojection.
 
@@ -31,9 +31,9 @@ Reprojection is performed after all other geometric processing is done. This mea
 
 To compute reprojections, Survey2GIS uses a built-in copy of the PROJ.4 open source library. This means that all SRS definitions will be converted to PROJ.4 definitions internally, and that all reprojection capabilities are identical with those of the built-in version of PROJ.4. Read 8.2 for more information.
 
-If the input data consists of geographic lat/lon coordinates, it will be assumed that these are provided as simple decimal degrees (see https://en.wikipedia.org/wiki/Decimal_degrees). Survey2GIS does not include any support for correctly parsing lat/lon data that uses "E/W" prefixes and/or "degrees, minutes, seconds" notations.
+> If the input data consists of geographic lat/lon coordinates, it will be assumed that these are provided as simple decimal degrees (see https://en.wikipedia.org/wiki/Decimal_degrees). Survey2GIS does not include any support for correctly parsing lat/lon data that uses "E/W" prefixes and/or "degrees, minutes, seconds" notations.
 
-## Setting Input and Output SRS
+## 8.1 Setting Input and Output SRS
 
 The user can specify the (given) SRS of the input data and the (intended) SRS of the output data. This is done via the options "--proj-in" and "--proj-out", respectively. Only one SRS can be set for all input files. It is not possible to mix input data with different SRS in one program run.
 
@@ -45,7 +45,7 @@ Setting only an output SRS will result in a processing error.
 
 SRS can be specified using EPSG codes, PROJ.4 strings or, in a few common cases, via convenient shorthands (read on for details).
 
-### Internal SRS Abbreviations
+### 8.1.1 Internal SRS Abbreviations
 
 For convenience, Survey2GIS understands a small number of shorthand names that can be used to set the SRS (capitalization is ignored):
 
@@ -67,7 +67,7 @@ This abbreviation is used for the Gauß-Krüger national grid of Germany. Replac
 #### osgb
 This is the traditional (still in use) grid system of the British Ordnance Survey (OSGB). It is identical with "EPSG:27700".
 
-### Using EPSG Codes
+### 8.1.2 Using EPSG Codes
 
 If no internal abbreviation (see 8.1.1) is available, the second most simple way to specify an SRS is to pass its EPSG code (in fact, all SRS abbreviations are automatically mapped to their EPSG equivalents by Survey2GIS).
 
@@ -81,9 +81,9 @@ Valid examples:
 --proj-out=epsg:4326
 ```
 
-Note that Survey2GIS only supports a subset of EPSG definitions, namely those that are also supported by the included version of PROJ.4 (see 8.1.3). Also note that PROJ.4 uses a simple, potentially imperfect, translation from EPSG codes to its own format, which may incur some loss of information/accuracy (see: http://proj4.org/faq.html#how-do-i-use-epsg-coordinate-system-codes-with-proj). If this is an issue, consider specifying PROJ.4 format parameters directly (see 8.1.3).
+> Note that Survey2GIS only supports a subset of EPSG definitions, namely those that are also supported by the included version of PROJ.4 (see 8.1.3). Also note that PROJ.4 uses a simple, potentially imperfect, translation from EPSG codes to its own format, which may incur some loss of information/accuracy (see: [http://proj4.org/faq.html#how-do-i-use-epsg-coordinate-system-codes-with-proj](http://proj4.org/faq.html#how-do-i-use-epsg-coordinate-system-codes-with-proj)). If this is an issue, consider specifying PROJ.4 format parameters directly (see 8.1.3).
 
-### Using PROJ.4 Strings
+### 8.1.3 Using PROJ.4 Strings
 
 In some scenarios, neither the use of an internal SRS abbreviation nor the specification of an EPSG code (see 8.1.1 and 8.1.2, respectively) may be sufficient to obtain accurate reprojection results.
 
@@ -106,23 +106,23 @@ Please consult the PROJ.4 online documentation at http://proj4.org/ for full det
 In addition, the following may be helpful when trying to compose valid PROJ.4 strings:
 
 - Survey2GIS prints out the full PROJ.4 definitions for all user-provided SRS as part of its standard logging output.
-- The website at http://www.spatialreference.org/ can be used to convert between different SRS representations, including EPGS and PROJ.4.
+- The website at [http://www.spatialreference.org](http://www.spatialreference.org) can be used to convert between different SRS representations, including EPGS and PROJ.4.
 
 An additional "+no_defs" token is always appended to the PROJ.4 string by Survey2GIS. This prevents any (potentially interfering) defaults that might be provided by PROJ.4 from being applied.
 
 Datum transformation parameters and/or a datum shift grid file (see 8.2.1) can be appended using the tokens "+towgs84" and "+nadgrids", respectively. Note that these tokens will automatically be discarded and replaced by the corresponding Survey2GIS option values, if the latter are provided (see also 8.2.1).
 
-**Important:** PROJ.4 definition strings are case-sensitive! E. g. specifying "+ellps=wgs84" will produce an error (the correct form being "+ellps=WGS84").
+> **Important:** PROJ.4 definition strings are case-sensitive! E. g. specifying "+ellps=wgs84" will produce an error (the correct form being "+ellps=WGS84").
 
-**Important:** PROJ.4 does not understand international numeric locales! This means that it is not possible to use decimal separators other than "." (period) in PROJ.4 token values!
+> **Important:** PROJ.4 does not understand international numeric locales! This means that it is not possible to use decimal separators other than "." (period) in PROJ.4 token values!
 
-### Web Mercator
+### 8.1.4 Web Mercator
 
-Popular Internet navigation and visualization tools, such as Google Earth/Maps, OpenStreetMap, etc., use a perfect sphere as Earth model (i. e. the length of the equator is assumed to be exactly the same as the length of any meridian arc). This is not a realistic geodetic assumption, but it increases 3D performance. This perfectly spherical Earth model is called "Web Mercator" (see https://en.wikipedia.org/wiki/Web_Mercator). The tricky thing is that these tools will pretend that the coordinates displayed on a Web Mercator "ellipsoid" are identical with those on a geodetic WGS 84 ellipsoid (an effect of this is that length and area measurements using a 3D tool with a Web Mercator sphere will be wrong compared to the real, geodetic measurements on a WGS 84 Earth model): the coordinates seen on the 3D display are meant to be WGS 84.
+Popular Internet navigation and visualization tools, such as Google Earth/Maps, OpenStreetMap, etc., use a perfect sphere as Earth model (i. e. the length of the equator is assumed to be exactly the same as the length of any meridian arc). This is not a realistic geodetic assumption, but it increases 3D performance. This perfectly spherical Earth model is called "Web Mercator" (see [https://en.wikipedia.org/wiki/Web_Mercator](https://en.wikipedia.org/wiki/Web_Mercator)). The tricky thing is that these tools will pretend that the coordinates displayed on a Web Mercator "ellipsoid" are identical with those on a geodetic WGS 84 ellipsoid (an effect of this is that length and area measurements using a 3D tool with a Web Mercator sphere will be wrong compared to the real, geodetic measurements on a WGS 84 Earth model): the coordinates seen on the 3D display are meant to be WGS 84.
 
 Paradoxically, when performing a geodetically correct reprojection with a datum conversion between the two (see 8.2.1) wrong Y coordinates will result! This is due to PROJ.4 automatically compensating for the difference in N-S radii between the two systems' Earth models.
 
-According to http://spatialreference.org/ref/sr-org/6864/, the error can be quite significant:
+According to [http://spatialreference.org/ref/sr-org/6864/](http://spatialreference.org/ref/sr-org/6864/), the error can be quite significant:
 
 > "Relative to an ellipsoidal development errors of up to 800 meters in position and 0.7 percent in scale may arise."
 
@@ -137,13 +137,13 @@ To circumvent this problem and maintain the intuitive assumption that e. g. the 
 
 Be advised however, that this is a work-around trick and that 3D tools with Web Mercator models are not suitable for applications that require geodetic correctness and accurate measurements.
 
-This mechanism will only work if either "EPSG:3857" or the abbreviation "web" is used to specify the input/output SRS. If a PROJ.4 string is used, then it must include the necessary additions to handle the Y coordinates compensation (see http://proj4.org/faq.html#changing-ellipsoid-why-can-t-i-convert-from-wgs8 for details).
+This mechanism will only work if either "EPSG:3857" or the abbreviation "web" is used to specify the input/output SRS. If a PROJ.4 string is used, then it must include the necessary additions to handle the Y coordinates compensation (see [http://proj4.org/faq.html#changing-ellipsoid-why-can-t-i-convert-from-wgs8](http://proj4.org/faq.html#changing-ellipsoid-why-can-t-i-convert-from-wgs8) for details).
 
 Providing any datum transformation parameters or a grid shift file (see 8.2.1) will lead to a program error if Web Mercator is the source or target SRS!
 
-## Reprojection Using PROJ.4
+## 8.2 Reprojection Using PROJ.4
 
-**Important:** This version of Survey2GIS uses PROJ.4, version 4. At the time of writing, a major revision of PROJ.4, leading to version 5 and involving numerous changes in the user interface and underlying reprojection engine, was in progress. Please make sure to refer to the correct PROJ.4 version when looking for further information online.
+> **Important:** This version of Survey2GIS uses PROJ.4, version 4. At the time of writing, a major revision of PROJ.4, leading to version 5 and involving numerous changes in the user interface and underlying reprojection engine, was in progress. Please make sure to refer to the correct PROJ.4 version when looking for further information online.
 
 If both input and output SRS are provided, are valid (see 8.1), and neither is a "local" system (see 8.1.1), then Survey2GIS will reproject all coordinate data from the input SRS to the output SRS.
 
@@ -159,7 +159,7 @@ Alternatively, the environment variable "PROJ_LIB" can be set to contain the ful
 
 If the "proj" folder does not exist (in any of the locations referenced above) or is not readable, Survey2GIS will still run, but reprojection functionality will be limited, and attempting to perform certain reprojections (e. g. involving EPSG codes) will result in an error.
 
-### Datum Transformations
+### 8.2.1 Datum Transformations
 
 Where SRS with different datums (such as "WGS 84" vs. "ED50") are involved, the key to minimizing loss of accuracy during reprojection is to specify the best available datum transformation.
 
@@ -191,7 +191,7 @@ Note also that it is possible to specify only some of the options above (i. e. l
 
 User-defined transformation parameters will only applied by Survey2GIS if at least one parameter value deviates from its default value.
 
-**Important:** Not supplying any transformation options to Survey2GIS does not mean that reprojection will not include a datum transformation. E. g. most EPSG SRS definitions (see 8.1.2) include their own transformation parameters, which will be applied if there is no user-specified transformation. Survey2GIS will report any applied transformation parameters as part of its log output.
+> **Important:** Not supplying any transformation options to Survey2GIS does not mean that reprojection will not include a datum transformation. E. g. most EPSG SRS definitions (see 8.1.2) include their own transformation parameters, which will be applied if there is no user-specified transformation. Survey2GIS will report any applied transformation parameters as part of its log output.
 
 The following conditions will raise an error and abort the current processing job:
 
@@ -200,9 +200,9 @@ The following conditions will raise an error and abort the current processing jo
 
 If the output SRS has no datum transformation (to WGS 84) definition, then a synthetic three-parameter transformation with all parameters (i. e. X, Y and Z axis shifts) set to "0" will automatically be added to it. The reason for this is that transformation parameters must be present in both input and output SRS if a datum transformation is required (see: http://proj4.org/faq.html#why-do-i-get-different-results-with-4-5-).
 
-**Important:** For the reason given in 8.1.3, it is not possible to use decimal separators other than "." (period) in the specification of datum transformation parameters!
+> **Important:** For the reason given in 8.1.3, it is not possible to use decimal separators other than "." (period) in the specification of datum transformation parameters!
 
-### Grid-based Reprojection
+### 8.2.2 Grid-based Reprojection
 
 Some application cases, such as high-precision engineering and cadastral mapping, may require a reprojection accuracy that cannot be achieved with even the best available parametric datum transformations (see 8.2.1) in all scenarios. In such cases, the alternative is to use a dense set ("grid") of local correction vectors, provided specifically for reprojection to the target SRS.
 
@@ -214,22 +214,22 @@ The full path and name of a grid file can be supplied to Survey2GIS via the corr
 --proj-grid=
 ```
 
-For more on using grid files read section "nadgrids - Grid Based Datum Adjustments" at http://proj.maptools.org/gen_parms.html.
+For more on using grid files read section "nadgrids - Grid Based Datum Adjustments" at [http://proj.maptools.org/gen_parms.html](http://proj.maptools.org/gen_parms.html).
 
 Note that PROJ.4 allows more than one grid file to be used, but only one can be specified using the dedicated option of Survey2GIS. Alternatively, by specifying the PROJ.4 string directly (see 8.1.3) and using the "+nadgrids=" token, several grid shift files can be supplied (separated by commas). In the latter case, the first grid file whose extents match the input data will be used for the reprojection. When using the "+nadgrids" token in a PROJ.4 string, do not use the "--proj-grid=" option, as the latter will automatically replace the former.
 
-Note: any relative path given in the value of the "--proj-grid=" option will be resolved to a full, absolute path automatically by Survey2GIS, so that PROJ.4 can correctly locate the file. When instead using the "+nadgrids" token in a PROJ.4 string, users must take care of providing complete paths themselves.
+> Note: any relative path given in the value of the "--proj-grid=" option will be resolved to a full, absolute path automatically by Survey2GIS, so that PROJ.4 can correctly locate the file. When instead using the "+nadgrids" token in a PROJ.4 string, users must take care of providing complete paths themselves.
 
-## Notes on SRS and Reprojection Issues
+## 8.3 Notes on SRS and Reprojection Issues
 
 Reprojection is a complex process. This section details some of the trickier issues that are involved in the process and gives advice on how to obtain the best possible results.
 
 **Shape preservation in large-area surveys:** Some reprojection types (notable those involving a transformation from planimetric X/Y to geographic lat/lon data) can result in a significant loss of geometric accuracy. In such cases, better reprojection results may be obtained by adding more vertices to lines and polygon boundaries during surveying.
 
-**Datum transformation quality:** Using the best possible datum transformation is key to reprojection accuracy where systems of different natures are involved. The default transformation parameters contained in EPSG codes are not always the best choice. Grid files should be used where available; Search the EPSG database at http://www.epsg-registry.org/ for alternative transformation parameters and accuracy assessments and read section 8.2.1 of this manual.
+**Datum transformation quality:** Using the best possible datum transformation is key to reprojection accuracy where systems of different natures are involved. The default transformation parameters contained in EPSG codes are not always the best choice. Grid files should be used where available; Search the EPSG database at [http://www.epsg-registry.org/](http://www.epsg-registry.org/) for alternative transformation parameters and accuracy assessments and read section 8.2.1 of this manual.
 
-**Converting SRS representations:** The website at http://www.spatialreference.org/ provides a very helpful database of global SRS in a variety of common formats, including EPSG, PROJ.4 and WKT (Well Known Text). It is also possible to download ".prj" auxiliary files for adding SRS info to existing Shapefiles.
+**Converting SRS representations:** The website at [http://www.spatialreference.org/](http://www.spatialreference.org/) provides a very helpful database of global SRS in a variety of common formats, including EPSG, PROJ.4 and WKT (Well Known Text). It is also possible to download ".prj" auxiliary files for adding SRS info to existing Shapefiles.
 
-**Lat/lon data:** Survey2GIS expects all lat/lon data to use decimal degrees. Sufficient locational accuracy in lat/lon coordinates may require many decimal places. Helpful information and guidance on this topic is available at https://en.wikipedia.org/wiki/Decimal_degrees.
+**Lat/lon data:** Survey2GIS expects all lat/lon data to use decimal degrees. Sufficient locational accuracy in lat/lon coordinates may require many decimal places. Helpful information and guidance on this topic is available at [https://en.wikipedia.org/wiki/Decimal_degrees](https://en.wikipedia.org/wiki/Decimal_degrees).
 
 **Vertical (Z) coordinate units:** PROJ.4 automatically detects the correct Z units from the SRS definition before doing the reprojection. However, Survey2GIS always assumes that Z is in meters when re-orienting coordinates (such as "Local X-Z": 7.2) or performing any other 3D operations. These two assumptions may collide and produce unexpected results in rare circumstances.
