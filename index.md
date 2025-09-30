@@ -1,5 +1,5 @@
 ---
-title: Survey2GIS
+title: Survey2GIS Quick Start Guide
 layout: home
 nav_order: 0
 ---
