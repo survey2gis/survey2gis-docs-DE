@@ -198,7 +198,7 @@ The following conditions will raise an error and abort the current processing jo
 - Both numeric datum transformation parameters and a transformation grid file (see 8.2.2) have been specified (only one of the two can be applied).
 - Numeric datum transformation parameters or a transformation grid file have been specified, but "--proj-in" or "--proj-out" are missing (the latter must both be specified to trigger a reprojection).
 
-If the output SRS has no datum transformation (to WGS 84) definition, then a synthetic three-parameter transformation with all parameters (i. e. X, Y and Z axis shifts) set to "0" will automatically be added to it. The reason for this is that transformation parameters must be present in both input and output SRS if a datum transformation is required (see: http://proj4.org/faq.html#why-do-i-get-different-results-with-4-5-).
+If the output SRS has no datum transformation (to WGS 84) definition, then a synthetic three-parameter transformation with all parameters (i. e. X, Y and Z axis shifts) set to "0" will automatically be added to it. The reason for this is that transformation parameters must be present in both input and output SRS if a datum transformation is required (see: [http://proj4.org/faq.html#why-do-i-get-different-results-with-4-5-](http://proj4.org/faq.html#why-do-i-get-different-results-with-4-5-)).
 
 > **Important:** For the reason given in 8.1.3, it is not possible to use decimal separators other than "." (period) in the specification of datum transformation parameters!
 
