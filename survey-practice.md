@@ -1,10 +1,10 @@
 ---
-title: Hints on Survey Practice
+title: 12. Hints on Survey Practice
 layout: page
 nav_order: 13
 ---
 
-# Hints on Survey Practice
+# 12. Hints on Survey Practice
 
 The quality of the data produced by Survey2GIS is in large part determined by the design of the survey workflow. The tools for error correction built into Survey2GIS can only fix some of the problems that arise during field work. This section contains some important hints for a field workflow that ensures good quality result data.
 
@@ -15,7 +15,7 @@ The order of measurements, i. e. the order in which the records will be stored i
 3. Input files should be forwarded to Survey2GIS in the same order in which they were produced during the survey.
 4. Topological cleaning functions such as snapping and "hole punching" (9.1) will work best if larger "base objects" are recorded before smaller objects.
 
-The most important principle is that of hierarchical surveying: first the base lines and largest objects, then adjacent smaller objects, embedded objects etc.
+> The most important principle is that of hierarchical surveying: first the base lines and largest objects, then adjacent smaller objects, embedded objects etc.
 
 When recording polygons, it is not necessary to record the first vertice again to close the geometry. In so far as the output formats demands this, Survey2GIS will take care of closing polygons by exactly duplicating the first vertex.
 
