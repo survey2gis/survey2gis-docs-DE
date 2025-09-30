@@ -1,12 +1,12 @@
 ---
-title: Topological Quality and Cleaning
+title: 10. Topological Quality and Cleaning
 layout: page
 nav_order: 10
 ---
 
-# Topological Quality and Cleaning
+# 10. Topological Quality and Cleaning
 
-**Note:** The processes described here assume that there is "something wrong" with the original input data and that it needs fixing. More precisely, it is assumed that the input data deviates from the intended geometries significantly enough to warrant some automated adjustment that will (ideally just slightly) modify the measured points, lines and polygons to improve the quality of the outcome. Note also that Survey2GIS assumes that the input data represents geometries on a relatively planar surface, meaning that they are similar to their flat 2D counterparts (i. e. constant Z = 0.0) and have little potential for overlaps and undercuts. If this is not the case or you wish to rather preserve the data closer to those originally surveyed, then set "--tolerance=", "--snapping=" and "--dangling=" options to "0.0" to reduce the "aggressiveness" of most topological cleaning actions. In addition, option "--topology=" can be used to turn specific cleaning functions on or off (see details below).
+> **Note:** The processes described here assume that there is "something wrong" with the original input data and that it needs fixing. More precisely, it is assumed that the input data deviates from the intended geometries significantly enough to warrant some automated adjustment that will (ideally just slightly) modify the measured points, lines and polygons to improve the quality of the outcome. Note also that Survey2GIS assumes that the input data represents geometries on a relatively planar surface, meaning that they are similar to their flat 2D counterparts (i. e. constant Z = 0.0) and have little potential for overlaps and undercuts. If this is not the case or you wish to rather preserve the data closer to those originally surveyed, then set "--tolerance=", "--snapping=" and "--dangling=" options to "0.0" to reduce the "aggressiveness" of most topological cleaning actions. In addition, option "--topology=" can be used to turn specific cleaning functions on or off (see details below).
 
 GIS-based data processing has specific requirements regarding data quality. One of the most important ones is the topological correctness of data. GIS use topological relations such as "contains", "intersects" or "overlaps" to query and filter spatial data. In order for such queries to return correct results, the data must be topologically correct.
 
@@ -22,7 +22,7 @@ Starting with version 1.5.2, Survey2GIS supports turning on or off specific clea
 
 **full** additionally runs operations that can have a marked effect on shape, especially of polygons: polygon overlap removal (9.1.5), dangling lines (9.1.8).
 
-## Problems and Corrections
+## 9.1 Problems and Corrections
 
 Typical survey data suffers from a limited set of topological error sources and defects, many of which can be corrected automatically by Survey2GIS. This section describes the topological cleaning functions in the same sequence in which Survey2GIS carries them out.
 
@@ -30,7 +30,7 @@ Note that it is unlikely that the results of such automated cleaning will be per
 
 In some cases, processing line and polygon geometries separately with selection commands (see 6) can provide better control over the cleaning process. It may also be advisable to produce a version of the output with all high-level topological cleaning functions turned off (i. e setting program options "--tolerance=", "--snapping=" and "--dangling=" to "0") to be able to review the effects of the cleaning process.
 
-### Duplicate Points (Thinning)
+### 9.1.1 Duplicate Points (Thinning)
 
 Duplicate points result from measurements that are so close to each other that they should actually be considered one and the same point. They often represent redundant vertices and increase the likelihood that hard-to-spot self-intersections in complex polygon boundaries will occur (see 9.1.4). But even simple point measurements can be problematic in this regard, e. g. when duplicate elevation points lead to over-representation during surface interpolation in GIS.
 
@@ -44,19 +44,19 @@ In the case of 3D data, the distance threshold will be applied to the 3D straigh
 
 Point/vertex thinning can be turned off entirely by setting option "--tolerance=" to a value smaller than "0".
 
-**Warning:** Large values for the thinning threshold (option "--tolerance=") can severely degrade the shapes of polygons and lines and produce unintended results. In most cases, using a threshold of a similar magnitude as the (estimated) accuracy of the survey is advisable. If point data must be thinned more aggressively, then the different geometry types can be processed separately using a selection command (see 6).
+> **Warning:** Large values for the thinning threshold (option "--tolerance=") can severely degrade the shapes of polygons and lines and produce unintended results. In most cases, using a threshold of a similar magnitude as the (estimated) accuracy of the survey is advisable. If point data must be thinned more aggressively, then the different geometry types can be processed separately using a selection command (see 6).
 
-### Splinters
+### 9.1.2 Splinters
 
 Splinters are geometries that are intended to be lines but have less than two vertices, and geometries intended to be polygons with less than three vertices. Such malformed geometries will simply be discarded.
 
-### Multi-part Geometries
+### 9.1.3 Multi-part Geometries
 
 While not a "topology issue" in the strict sense, the concept of multi-part geometries is an important aspect of data quality and consistency.
 
 Sometimes physical constraints mean that the geometry that represents a single object must be recorded as separate, spatially disjunct parts. E. g., this may be the case if the area of a polygonal object has been exposed in two separate locations. In order for such multi-part recording to work properly, all parts of the geometry must have the same value in "key_field" and the parser option "key_unique" must be enabled (see descriptions in 4). Provided that this is the case, Survey2GIS will then automatically assemble all parts into one multi-part geometry and assign it only one attribute data record in the GIS output.
 
-### Self-intersections of Polygon Boundaries
+### 9.1.4 Self-intersections of Polygon Boundaries
 
 A self-intersection occurs when a vertex B is placed behind its preceding vertex A in such a way that a straight line from B to its successor vertex C crosses over the existing polygon boundary. Small self-intersections can be hard to spot but will result in triangular, "inverted" areas when visualizing the affected polygon in GIS:
 
@@ -67,11 +67,11 @@ Self-intersections are frequent topological errors that prevent many GIS operati
 
 Survey2GIS checks for self-intersections early on, when building lines and polygons from the input data. If this is the case, a warning will be issued. To facilitate manual cleaning of self-intersections, new vertices will be added to geometries at self-intersection points.
 
-Some higher level topological cleaning actions will fail with self-intersections present. In such cases, Survey2GIS will skip further cleaning of the affected geometries and issue a warning. Check the status messages produced at the end of program operation for the total number of detected self-intersections.
+> Some higher level topological cleaning actions will fail with self-intersections present. In such cases, Survey2GIS will skip further cleaning of the affected geometries and issue a warning. Check the status messages produced at the end of program operation for the total number of detected self-intersections.
 
-### Shared Boundaries of Polygons
+### 9.1.5 Shared Boundaries of Polygons
 
-**Note:** Automatic cleaning of boundaries of adjacent polygons is a feature that is available starting with version 1.5.2 of Survey2GIS.
+> **Note:** Automatic cleaning of boundaries of adjacent polygons is a feature that is available starting with version 1.5.2 of Survey2GIS.
 
 Two adjacent polygons share a common boundary along their line of contact. During surveying, however, practical restrictions require that both polygons are recorded completely, effectively recording the shared boundary twice – and most likely with some discrepancies, since it will be impossible to re-record the shared vertices in the exact same locations. Therefore, two fundamental problems will be impossible to avoid:
 
@@ -84,6 +84,8 @@ From the point of view of 2D GIS topology, the second case is a topological erro
 2. Overlapping areas of adjacent polygons will be removed automatically and additional vertices will be inserted, so that the polygons will have identical vertices along their shared boundary.
 
 Only the first tool's action must be controlled by the user, using the "--snapping" option, which causes a vertex that is part of the outer boundary of polygon B to be moved exactly on top of ("snapped to") the closest vertex on polygon A (which is assumed to be its "sibling" vertex). The value set for this snapping distance threshold should reflect the locational error margin of attempting to measure the same point location more than once in practice.
+
+<img src="img/62.jpg" style="max-width: 80%">
 
 The snapping threshold should be chosen to lie well below the typical distance of separate point measurements, but above the accuracy with which an already measured point can be measured again.
 
@@ -107,7 +109,7 @@ In practice, the effectiveness of automatic cleaning of shared polygon boundarie
 
 Also note, that the operations described above will likely fail for polygons that have other topological defects, notably self-intersections (see 9.1.4).
 
-### Internal Polygon Boundaries (Holes)
+### 9.1.6 Internal Polygon Boundaries (Holes)
 
 <img src="img/63.jpg" style="max-width: 80%">
 
@@ -120,7 +122,7 @@ The 2D topology model of GIS demands that polygons in one and the same layer may
 
 In order to get good results from this cleaning process, it is important to record the polygons in a well-defined order (see 12). Also note that the corrections described above are likely to fail when applied to polygons that have topological errors, such as intersecting boundaries (cf. 9.1.7).
 
-### Intersections of Lines and Polygon Boundaries
+### 9.1.7 Intersections of Lines and Polygon Boundaries
 
 Complex surveys are likely to produce geometries that criss-cross and intersect each other. Such intersection points are often of critical importance for cleaning geometries manually, and intersecting lines are only considered to be topologically valid if they both have a vertex at the exact point of intersection. Intersection vertices also allow for the automated removal of "dangles" (see 9.1.8).
 
@@ -144,11 +146,11 @@ Added vertices at line/polygon boundary intersections: 8
 
 In some cases, the number of intersection vertices added will be lower than the number of detected intersections. This happens, e. g., if a geometry is intersected by more than one other geometry in the exact same location. Such redundant intersection vertices are automatically identified and removed.
 
-**Note:** Since Survey2GIS cannot know which geometry the user may want to correct manually later, an intersection vertex is added to all intersecting geometries of the same type.
+> **Note:** Since Survey2GIS cannot know which geometry the user may want to correct manually later, an intersection vertex is added to all intersecting geometries of the same type.
 
 Self-intersections of lines are not considered topological errors by Survey2GIS, but will lead to an intersection vertex being placed on the location of the self-intersection. By contrast, self-intersecting polygon boundaries are topological errors (see also 9.1.4), as are intersections between polygon boundaries (see 9.1.5). If the latter are detected, warnings will be issued and topological errors will be logged, but no intersection vertices will be added.
 
-### Dangles (Overshoots and Undershoots)
+### 9.1.8 Dangles (Overshoots and Undershoots)
 
 In many cases, the start and end vertices of lines (also referred to as "nodes") are intended to be located exactly on another line or polygon boundary, but due to the limited accuracy of the survey, they actually lie at a small distance from their intended locations. Such line vertices are collectively called "dangles", and fall into two categories:
 
@@ -191,7 +193,7 @@ There are two options for avoiding "double undershoots" while surveying:
 <img src="img/67b.jpg" style="max-width: 80%">
 
 
-### Order of Polygon Vertices
+### 9.1.9 Order of Polygon Vertices
 
 GIS data has a directional component that needs to be considered when digitizing polygonal data. In general, GIS attempt to correct the vertex order (also called "winding order") of polygons automatically, but it is safer to prevent problems from the ground up.
 
@@ -207,7 +209,7 @@ The following rules should be respected when surveying the vertices of polygons 
 
 When reconstructing polygons from survey data, Survey2GIS will attempt to enforce the above rules automatically and re-order vertices if necessary. In order to avoid problems, however, it is recommended to respect these rules during field work, when recording polygon outlines.
 
-## Practical Considerations and Limitations
+## 9.2 Practical Considerations and Limitations
 
 Essentially all common GIS use a 2D topology model based on the concept of a bird's eye data view. This may cause topological errors to arise, even though the original 3D data is theoretically free of such errors. Polygon boundaries are especially problematic in GIS analysis, because from a 2D top-down perspectives, boundaries may seem to overlap even though they are free of overlap in 3D space. There is no way to automatically correct for such effects.
 
@@ -237,4 +239,4 @@ The illustrations below show one of the few extreme cases that will cause the to
 
 Some tricky cases might require using of option "topology=" to reduce the aggressiveness of automatic cleaning (see 9), and resolving issues manually in GIS.
 
-**Important:** When combining a data selection (see 6) with topological cleaning, the result can vary from that obtained by processing the complete input data! The reason for this is that geometries not included in the selection no longer have an effect on topological operations in Survey2GIS. For example, polygon boundaries will not be adjusted if the overlap with boundaries of polygons that are part of the data selection. If this behaviour is not desirable, then it might be better to process the data in full and use e. g. a GIS to select data afterwards.
+> **Important:** When combining a data selection (see 6) with topological cleaning, the result can vary from that obtained by processing the complete input data! The reason for this is that geometries not included in the selection no longer have an effect on topological operations in Survey2GIS. For example, polygon boundaries will not be adjusted if the overlap with boundaries of polygons that are part of the data selection. If this behaviour is not desirable, then it might be better to process the data in full and use e. g. a GIS to select data afterwards.
