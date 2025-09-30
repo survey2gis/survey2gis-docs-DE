@@ -10,9 +10,9 @@ nav_order: 1
 
 There is no installation routine in the form of a "setup" program. Simply locate the version for your operating system in the "bin" folder and run it. There is a "README" file for each operating system that contains further details.
 
-Users who do not wish to use proprietary software to download data from their survey devices may find TotalOpenStation (http://tops.iosa.it), a free tool for serial communication with selected total stations and GPS models, a useful companion to Survey2GIS.
+Users who do not wish to use proprietary software to download data from their survey devices may find TotalOpenStation ([http://tops.iosa.it](http://tops.iosa.it)), a free tool for serial communication with selected total stations and GPS models, a useful companion to Survey2GIS.
 
-Windows users should also consider installing a capable text editor (such as NotePad++: http://notepad-plus-plus.org), to facilitate the manual editing and cleaning of large data and log files.
+Windows users should also consider installing a capable text editor (such as NotePad++: [http://notepad-plus-plus.org](http://notepad-plus-plus.org)), to facilitate the manual editing and cleaning of large data and log files.
 
 ## Basic Usage
 
