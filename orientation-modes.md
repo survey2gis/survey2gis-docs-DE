@@ -1,10 +1,10 @@
 ---
-title: Orientation Modes
+title: 7. Orientation Modes
 layout: page
 nav_order: 8
 ---
 
-# Orientation Modes
+# 7. Orientation Modes
 
 Starting with version 1.5.0, Survey2GIS provides the concept of "orientation modes" as a work-around for handling vertical data ("catenas" in soil science, "profiles" in archaeology, etc.) in a traditional 2D/pseudo 3D GIS environment.
 
@@ -14,19 +14,19 @@ By default, the orientation of the output data produced by Survey2GIS is identic
 
 If requested by the user, re-orientation of axes is performed immediately after an input file has been read and before further geometry processing, in particular topological cleaning, is applied (see 9). This allows operations such as snapping to work on vertical data as expected. The coordinates of label points (if present: see 5) will also be transformed.
 
-The program option "--orientation=" (see 2.3) can be used to re-orientate the data as described below. Note that not all orientation modes may be available for all types of input data.
+The program option "\-\-orientation=" (see 2.3) can be used to re-orientate the data as described below. Note that not all orientation modes may be available for all types of input data.
 
-**Warning:** Data produced in an orientation mode other than "world" will be subject to transformations with no guarantee of reversibility. Therefore, all survey raw data should be archived and re-orientated data should never be considered the primary or authoritative processing result.
+> **Warning:** Data produced in an orientation mode other than "world" will be subject to transformations with no guarantee of reversibility. Therefore, all survey raw data should be archived and re-orientated data should never be considered the primary or authoritative processing result.
 
-## World Orientation (Default)
+## 7.1 World Orientation (Default)
 
 Orientation mode "world" is the default mode of operation in Survey2GIS. It does not modify the input data in any way. The corresponding option value exists merely to keep the user interface consistent.
 
-## Local X-Z Orientation
+## 7.2 Local X-Z Orientation
 
 The "local X-Z" orientation mode (option value "localxz") is a simple means of transforming 3D survey data to 2D cross-sections ("profiles") that can be visualized in a 2D GIS using a synthetic coordinate system. It is not suitable for large areas with many disjunct geometries, but intended to visualize a single "profile" (alternative terms: "cut", "trench wall", "catena", etc.):
 
-<img src="img/44.jpg" style="max-width: 80%">
+<img src="img/46.jpg" style="max-width: 80%">
 
 
 The re-orientated data will have a new, synthetic coordinate system with swapped Z and Y axes and newly computed X coordinates. The fact that the transformed data's X coordinates will always start at "0" while the Z coordinates are preserved, makes it relatively easy to compare different datasets side-by-side (provided that the GIS can display several data views at once).
