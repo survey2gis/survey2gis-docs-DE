@@ -1,11 +1,10 @@
-
 ---
-title: Known Problems
+title: A) Known Problems
 layout: page
 nav_order: 14
 ---
 
-# Known Problems
+# A) Known Problems
 
 The following problems are known to exist in the current version of Survey2GIS:
 
