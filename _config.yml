@@ -1,7 +1,8 @@
 title: survey2gis docs
 description: 
 theme: just-the-docs
-
+nav_enabled: true
+heading_anchors: true
 url: https://survey2gis.github.io/survey2gis-docs/
 
 aux_links:
