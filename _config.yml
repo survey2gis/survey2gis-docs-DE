@@ -1,8 +1,8 @@
 title: survey2gis docs
-description: A starter template for a Jeykll site using the Just the Docs theme!
+description: 
 theme: just-the-docs
 
 url: https://survey2gis.github.io/survey2gis-docs/
 
 aux_links:
-  Template Repository: https://survey2gis.github.io/survey2gis-docs/
+  Template Repository: https://github.com/survey2gis/survey2gis-docs
