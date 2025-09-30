@@ -1,10 +1,10 @@
 ---
-title: Handling Special (Accent) Characters
+title: 11. Handling Special (Accent) Characters
 layout: page
 nav_order: 12
 ---
 
-# Handling Special (Accent) Characters
+# 11. Handling Special (Accent) Characters
 
 Support for the use of special or accented characters (i. e. those not included in the standard ASCII code table, such as German umlauts) for international text is limited to only the following contexts in Survey2GIS:
 
@@ -27,4 +27,4 @@ When using special characters in a parser schema (where supported: see above), m
 
 All attribute table field contents produced by Survey2GIS will also be encoded in UTF-8. This means that e. g. special characters used in the DBF attribute table of a Shapefile will only be displayed correctly by a GIS that supports UTF-8.
 
-The use of special characters (as well as whitespace) in file and folder names should always be avoided, as this is very likely to cause problems at some stage (e. g. when processing the files with another software or exchanging files across different operating systems).
+> The use of special characters (as well as whitespace) in file and folder names should always be avoided, as this is very likely to cause problems at some stage (e. g. when processing the files with another software or exchanging files across different operating systems).
