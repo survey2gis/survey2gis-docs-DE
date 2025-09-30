@@ -1,10 +1,10 @@
 ---
-title: Graphical User Interface
+title: 3. Graphical User Interface
 layout: page
 nav_order: 3
 ---
 
-# Graphical User Interface
+# 3. Graphical User Interface
 
 As an alternative to the command line usage, Survey2GIS can also be used via its built-in graphical user interface (GUI). There are two ways of starting the software in GUI mode:
 
@@ -31,7 +31,7 @@ The menu item "Settings ▷ Defaults" (or the button with the same name at the b
 
 **Warning:** Any file present in the output folder will be overwritten without warning if a new file of the same name is produced. This is true for both output data and log files. Likewise, if a settings file is loaded then the current settings in the GUI will be replaced without warning.
 
-## Integrating the GUI into Another Application
+## 3.1 Integrating the GUI into Another Application
 
 The integration of the Survey2GIS GUI into a host application (e. g. a GIS) is assisted by Survey2GIS in two ways:
 
@@ -40,7 +40,7 @@ The integration of the Survey2GIS GUI into a host application (e. g. a GIS) is a
 
 If Survey2GIS has produced data, then the following tags will be present in the output stream:
 
-```xml
+```
 <OUTPUT FORMAT>format </OUTPUT FORMAT>
 ```
 
@@ -48,7 +48,7 @@ If Survey2GIS has produced data, then the following tags will be present in the 
 
 This is followed by the names of the actual output files, separated by geometry type:
 
-```xml
+```
 <OUTPUT POINTS>data </OUTPUT POINTS>
 <OUTPUT LINES>data </OUTPUT LINES>
 <OUTPUT POLYGONS>data </OUTPUT POLYGONS>
@@ -58,7 +58,7 @@ This is followed by the names of the actual output files, separated by geometry 
 
 If the user has set the "--raw-data" option, then there will be an additional:
 
-```xml
+```
 <OUTPUT POINTS RAW>data </OUTPUT POINTS RAW>
 ```
 
