@@ -1,12 +1,12 @@
 ---
-title: Installation and Basic Usage
+title: 1. Installation and Basic Usage
 layout: page
 nav_order: 1
 ---
 
-# Installation and Basic Usage
+# 1. Installation and Basic Usage
 
-## Installation
+## 1.3 Installation
 
 There is no installation routine in the form of a "setup" program. Simply locate the version for your operating system in the "bin" folder and run it. There is a "README" file for each operating system that contains further details.
 

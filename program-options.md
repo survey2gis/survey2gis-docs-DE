@@ -1,10 +1,10 @@
 ---
-title: Program Startup and Options
+title: 2. Program Startup and Options
 layout: page
 nav_order: 2
 ---
 
-# Program Startup and Options
+# 2. Program Startup and Options
 
 The software is controlled by a number of options that can either be stated on the command line (started via cmd.exe on Windows systems), as described in this section, or through a graphical user interface (GUI), as described in section 3. Both interfaces offer the same level of control.
 
@@ -76,7 +76,7 @@ As an alternative, the graphical user interface (GUI: see 3) can be started by c
 survey2gis --show-gui
 ```
 
-## Input and Output Files
+## 2.1 Input and Output Files
 
 All items specified on the command line, that follow the list of options and option values, will be interpreted as the names of input data files. All input data files will be interpreted according to the parser schema file (specified with option "-p"). The output data produced will be stored as files in the folder specified by the "-o" option. The output folder must exist and must allow write access. The current folder can be used as output folder by specifying the single dot (".") as folder name.
 
@@ -86,7 +86,7 @@ The output file format (see details in 10) is selected using option "-f". By def
 
 The minus ("-") character has a special purpose. If it is given instead of a file name, then Survey2GIS will wait for input data to arrive through the operating system's standard input stream. On Mac OS X (macOS) and Linux systems, this stream is known as stdin. By default, it is linked with the keyboard input stream, so that the user may directly type input data to be forwarded to Survey2GIS. To complete keyboard input, the user has to type the special sequence "ˆZ" on Windows systems (press keys "CTRL" and "Z" simultaneously), and "ˆC" ("CTRL" and "C") on Mac OS X and Linux, on an otherwise blank line.
 
-## Language Settings
+## 2.2 Language Settings
 
 All messages and GUI elements of Survey2GIS are "internationalized". On startup, Survey2GIS will check the language settings of the operating system on which it is running and display messages in the system's language, provided that a matching translation is available. If no translation exists, then Survey2GIS will fall back to English. In any case, option "-e" will force Survey2GIS to run in English mode, disregarding any operating system settings.
 
@@ -104,9 +104,9 @@ Whereas in an English speaking location, it would be:
 
 The numerical notation, including representations of the decimal point and grouping character, will be set to the English standard by default, as this is how most hardware produces output. However, Survey2GIS offers settings for the specification of decimal point and grouping characters (using options "-i" and "-g", respectively).
 
-It is of crucial importance that the numerical notation is correctly set to that of the input data. Many devices and programs use English notation by default. Typical symptoms of a mismatch include wrongly placed geometries in the output data, as well as stepped and deformed line segments and polygon boundaries.
+> It is of crucial importance that the numerical notation is correctly set to that of the input data. Many devices and programs use English notation by default. Typical symptoms of a mismatch include wrongly placed geometries in the output data, as well as stepped and deformed line segments and polygon boundaries.
 
-## Complete List of Options
+## 2.3 List of Options
 
 The following is a complete but terse description of all options accepted by Survey2GIS. Links to more details on how these options influence processing are provided where appropriate. Options are listed in the same order in which they appear in the command line usage summary (invoked by running "survey2gis --help").
 
