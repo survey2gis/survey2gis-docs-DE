@@ -2,6 +2,7 @@
 title: 1. Installation and Basic Usage
 layout: page
 nav_order: 1
+has_children: true
 ---
 
 # 1. Installation and Basic Usage
