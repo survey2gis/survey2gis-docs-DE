@@ -14,7 +14,7 @@ Users who do not wish to use proprietary software to download data from their su
 
 Windows users should also consider installing a capable text editor (such as NotePad++: [http://notepad-plus-plus.org](http://notepad-plus-plus.org)), to facilitate the manual editing and cleaning of large data and log files.
 
-## Basic Usage
+## 1.4 Basic Usage
 
 This software may be used from the command line or through a graphical user interface (GUI). The same capabilities are available in both modes. The GUI is described further in section 3. To use Survey2GIS from the Windows command line, start cmd.exe first, then change into the folder where the software resides (replace all items in pointed brackets "<>" with the actual path entries), by typing:
 
