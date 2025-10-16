@@ -2,7 +2,7 @@ title: survey2gis docs
 description: 
 remote_theme: just-the-docs/just-the-docs
 heading_anchors: true
-url: https://s2g-docs.survey-tools.org/
+url: https://s2g-docs-de.survey-tools.org/
 
 aux_links:
-  Template Repository: https://github.com/survey2gis/survey2gis-docs
+  Template Repository: https://github.com/survey2gis/survey2gis-docs-DE
