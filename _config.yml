@@ -1,6 +1,6 @@
 title: survey2gis docs
 description: 
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
 heading_anchors: true
 url: https://s2g-docs.survey-tools.org/
 
